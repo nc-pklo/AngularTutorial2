@@ -1,25 +1,35 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '../../models/User'
+import { log } from 'util';
 
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.css']
 })
+
 export class UsersComponent implements OnInit {
+  user: User= {
+    firstName: '',
+    lastName: '',
+    age: null,
+    address: {
+      street: '',
+      city: '',
+      state: ''
+    }
+
+  }
   users: User[];
   showExtended: boolean = true ; 
   loaded: boolean=false;
-  enableAdd: boolean = true;
-  currentClasses={};
-  currentStyles={};
+  enableAdd: boolean = false;
+  showUserform: boolean = false;
 
 
   constructor() { }
 
   ngOnInit() {
-
-
       this.users = [
         {
           firstName: 'John',
@@ -30,10 +40,9 @@ export class UsersComponent implements OnInit {
             city: 'Boston',
             state: 'MI'
           }, 
-          image: 'http://lorempixel.com/600/600/people/3',
           isActive: true,
-          balance: 100,
-          registered: new Date('01/02/2018 08:30:00')
+          registered: new Date('01/02/2018 08:30:00'),
+          hide: true
         },
         {
           firstName: 'Daniel',
@@ -44,10 +53,11 @@ export class UsersComponent implements OnInit {
             city: 'Wawa',
             state: 'Maz'
           },
-          image: 'http://lorempixel.com/600/600/people/2',
+
           isActive: false,
-          balance: 200,
-          registered: new Date('03/1/2017 06:20:00')
+   
+          registered: new Date('03/1/2017 06:20:00'),
+          hide: true
         },
         {
           firstName: 'Andrzej',
@@ -58,49 +68,52 @@ export class UsersComponent implements OnInit {
             city: 'Piaseczno',
             state: 'Pdkrpr'
           },
-          image: 'http://lorempixel.com/600/600/people/1',
+         
           isActive: true,
-          balance: 50,
-          registered: new Date('11/06/2016 11:45:00')
+
+          registered: new Date('11/06/2016 11:45:00'),
+          hide: true
         }
       ];
       this.loaded=true;
- 
-    // this.showExtended= false;
-
-    // this.addUser({
-    //   firstName: 'David',
-    //   lastName: 'Jackson',
-    //   // age: 12,
-    //   // address: {
-    //   //   street: '12 Wake st',
-    //   //   city: 'Miami',
-    //   //   state: 'Fl'
-    //   // }
-    // });
-
-      this.setCurrentClasses();
-      this.setCurrentStyles();
 
   }
 
-  addUser(user: User) {
-    this.users.push(user);
-  }
-
-  setCurrentClasses() {
-    this.currentClasses= {
-      'btn-success': this.enableAdd,
-      'big-text': this.showExtended,
+  addUser() {
+    this.user.isActive == true;
+    this.user.registered=new Date();
+    this.users.push(this.user); 
+    this.user = {
+      firstName: '',
+      lastName: '',
+      age: null,
+      address: {
+        street: '',
+        city: '',
+        state: ''
+      }
     }
+    // Pushes user to the array
   }
 
-  setCurrentStyles(){
-    this.currentStyles= {
-      'padding-top': this.showExtended ? '0' : '40px',
-      'font-size' : this.showExtended ? '' : '40px'
-    }
+  // fireEvent(e){
+  //   // console.log('Button Clicked');
+  //   console.log(e.type);
+  // }
+
+  toggleHide(user:User) {
+    user.hide = !user.hide;
   }
 
+  onSubmit(e){
+    console.log(123);
+    e.preventDefault();
+
+  }
+
+  fireEvent(e){
+    console.log(e.type);
+    console.log(e.target.value);
+  }
 
 }
